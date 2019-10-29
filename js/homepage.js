@@ -10,9 +10,60 @@ function getUsername() {
     request.open("POST", "php/username.php", true);
     request.send();
 
-    request.onload = function() {
+    request.onload = function () {
         document.getElementById('username').innerHTML = request.response;
     }
+}
+
+function getMovies() {
+    let data = "{}";
+
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            let data = JSON.parse(this.responseText);
+
+            lastPage = data['total_pages'];
+
+            for (i = 1; i <= lastPage; i++) {
+                getData(i)
+            }
+        }
+    });
+
+    xhr.open("GET", "https://api.themoviedb.org/3/movie/now_playing?api_key=94f5e95d77b0120aa05ca9c7fdeb1df6");
+
+    xhr.send(data);
+}
+
+function getData(page) {
+    const today = new Date();
+    let data = "{}";
+
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            let movies = JSON.parse(this.responseText);
+
+            for (i = 0; i < movies['results'].length; i++) {
+                const date = new Date(movies['results'][i]['release_date']);
+                const diffTime = Math.abs(today - date);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays <= 7) {
+                    renderMovies(movies['results'][i]);
+                }
+            }
+        }
+    });
+
+    xhr.open("GET", "https://api.themoviedb.org/3/movie/now_playing?page=" + page + "&api_key=94f5e95d77b0120aa05ca9c7fdeb1df6");
+
+    xhr.send(data);
 }
 
 function renderMovies(e) {
@@ -29,7 +80,12 @@ function renderMovies(e) {
     poster.className = 'poster';
 
     let posterImage = document.createElement('img');
-    posterImage.src = e['poster'];
+
+    if (e['poster_path'] == null) {
+        posterImage.src = "assets/no_image.png";
+    } else {
+        posterImage.src = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + e['poster_path'];
+    }
 
     poster.appendChild(posterImage);
     contentPoster.appendChild(poster);
@@ -50,7 +106,7 @@ function renderMovies(e) {
 
     let ratingValue = document.createElement('span');
     ratingValue.className = 'rating-value';
-    ratingValue.innerHTML = e['rating'];
+    ratingValue.innerHTML = e['vote_average'];
 
     rating.appendChild(starIcon);
     rating.appendChild(ratingValue);
@@ -63,21 +119,8 @@ function renderMovies(e) {
     target.type = 'hidden';
     target.className = 'target-movie';
     target.name = 'target-movie';
-    target.value = e['movieID'];
+    target.value = e['id'];
 
     item.appendChild(target);
     container.appendChild(item);
-}
-
-function getMovies() {
-    let request = new XMLHttpRequest();
-    request.open("POST", "php/movies.php", true);
-    request.send();
-
-    request.onload = function() {
-        let movie_list = JSON.parse(request.response)
-        for (i = 0; i < movie_list.length; i++) {
-            renderMovies(movie_list[i]);
-        }
-    }
 }
