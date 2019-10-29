@@ -56,8 +56,6 @@ function changePage(e) {
         let params1 = "search=" + input;
         let params2 = "page=" + destinationPage;
         window.location.replace('search.html' + "?" + params1 + "&" + params2);
-
-        getSearchResult();
     }
 }
 
@@ -95,8 +93,6 @@ function onePage(e) {
         let params1 = "search=" + input;
         let params2 = "page=" + destinationPage;
         window.location.replace('search.html' + "?" + params1 + "&" + params2);
-
-        getSearchResult();
     }
 }
 
@@ -109,46 +105,52 @@ function getSearchResult() {
         page = 1;
     }
 
-    let params = "search=" + input;
-    let request = new XMLHttpRequest();
-    request.open("GET", "php/searchFunction.php" + "?" + params, true);
-    request.send();
+    let data = "{}";
 
-    request.onload = function () {
-        getData(request, page, input);
-    }
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            getData(this.responseText, input);
+        }
+    });
+
+    xhr.open("GET", "https://api.themoviedb.org/3/search/movie?page=" + page + "&query=" + input + "&api_key=94f5e95d77b0120aa05ca9c7fdeb1df6");
+
+    xhr.send(data);
 }
 
-function getData(request, page, input) {
-    let data = JSON.parse(request.response);
+function getData(response, input) {
+    let data = JSON.parse(response);
 
     document.getElementById("search-key").innerHTML = input;
-    document.getElementById("search-result").innerHTML = data.length;
+    document.getElementById("search-result").innerHTML = data['results'].length;
 
-    lastPage = Math.ceil(data.length / 5);
+    lastPage = data['total_pages'];
 
-    if (page != lastPage) {
-        for (i = (5 * (page - 1)); i < (5 * page); i++) {
-            renderMovies(data[i]);
+    if (data['page'] != lastPage) {
+        for (i = 0; i < 20; i++) {
+            renderMovies(data['results'][i]);
         }
     } else {
-        for (i = (5 * (page - 1)); i < data.length; i++) {
-            renderMovies(data[i]);
+        for (i = 0; i < data['results'].length; i++) {
+            renderMovies(data['results'][i]);
         }
     }
 
     renderPage(lastPage);
 
-    document.getElementsByClassName('page-button')[page - 1].style.color = '#a6a6a6';
-    document.getElementsByClassName('page-button')[page - 1].style.borderColor = '#a6a6a6';
+    document.getElementsByClassName('page-button')[data['page'] - 1].style.color = '#a6a6a6';
+    document.getElementsByClassName('page-button')[data['page'] - 1].style.borderColor = '#a6a6a6';
 
-    if (page == 1) {
+    if (data['page'] == 1) {
         changeBackButton(0);
     } else {
         changeBackButton(1);
     }
 
-    if (page == lastPage) {
+    if (data['page'] == lastPage) {
         changeNextButton(0);
     } else {
         changeNextButton(1);
@@ -166,7 +168,13 @@ function renderMovies(e) {
 
     let posterImage = document.createElement('img');
     posterImage.className = 'posterImage';
-    posterImage.src = e['poster'];
+
+    if (e['poster_path'] == null) {
+        posterImage.src = "assets/no_image.png";
+    } else {
+        posterImage.src = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + e['poster_path'];
+    }
+
     posterImage.setAttribute('onclick', 'viewDetail2(this)');
 
     poster.appendChild(posterImage);
@@ -188,7 +196,7 @@ function renderMovies(e) {
 
     let ratingValue = document.createElement('label');
     ratingValue.className = 'rating';
-    ratingValue.innerHTML = e['rating'];
+    ratingValue.innerHTML = e['vote_average'];
 
     rating.appendChild(starIcon);
     rating.appendChild(ratingValue);
@@ -200,7 +208,7 @@ function renderMovies(e) {
 
     let desc = document.createElement('p');
     desc.className = 'desc';
-    desc.innerHTML = e['description'];
+    desc.innerHTML = e['overview'];
 
     description.appendChild(desc);
     movieInfo.appendChild(description)
@@ -228,7 +236,7 @@ function renderMovies(e) {
     target.type = 'hidden';
     target.className = 'target-movie';
     target.name = 'target-movie';
-    target.value = e['movieID'];
+    target.value = e['id'];
 
     item.appendChild(target);
     container.appendChild(item);
