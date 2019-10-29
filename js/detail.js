@@ -57,10 +57,15 @@ function renderTop(e) {
     let poster = document.createElement('div');
     poster.className = 'poster';
 
-    let posterImg = document.createElement('img');
-    posterImg.src = e['poster'];
+    let posterImage = document.createElement('img');
 
-    poster.appendChild(posterImg);
+    if (e['poster_path'] == null) {
+        posterImage.src = "assets/no_image.png";
+    } else {
+        posterImage.src = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + e['poster_path'];
+    }
+
+    poster.appendChild(posterImage);
     itemTop.appendChild(poster);
 
     let movieInfo = document.createElement('div');
@@ -72,14 +77,25 @@ function renderTop(e) {
 
     let genreDuration = document.createElement('label');
     genreDuration.className = 'genre-duration';
-    genreDuration.innerHTML = e['genre'];
+
+    if (e['genres'] != null) {
+        let genre = e['genres'][0]['name'];
+
+        for (i = 1; i < e['genres'].length; i++) {
+            genre += ", " + e['genres'][i]['name'];
+        }
+        genreDuration.innerHTML = genre;
+    }
 
     let separator = document.createElement('label');
-    separator.innerHTML = ' | ';
 
     let duration = document.createElement('label');
     duration.className = 'duration';
-    duration.innerHTML = e['duration'] + ' mins';
+
+    if (e['runtime'] != null) {
+        separator.innerHTML = ' | ';
+        duration.innerHTML = e['runtime'] + ' mins';
+    }
 
     genreDuration.appendChild(separator);
     genreDuration.appendChild(duration);
@@ -91,7 +107,7 @@ function renderTop(e) {
     let date = document.createElement('span');
     date.className = 'date';
 
-    date.innerHTML = convertDate(e['date']);
+    date.innerHTML = convertDate(e['release_date']);
     release.appendChild(date);
 
     let ratingContainer = document.createElement('div');
@@ -102,7 +118,7 @@ function renderTop(e) {
 
     let rating = document.createElement('label');
     rating.className = 'rating';
-    rating.innerHTML = e['rating'] + " ";
+    rating.innerHTML = e['vote_average'] + " ";
 
     let outTen = document.createElement('span');
     outTen.className = 'out-ten';
@@ -117,7 +133,7 @@ function renderTop(e) {
 
     let desc = document.createElement('p');
     desc.className = 'desc';
-    desc.innerHTML = e['description'];
+    desc.innerHTML = e['overview'];
 
     descContainer.appendChild(desc);
 
@@ -241,7 +257,7 @@ function renderReviewItem(e) {
     reviewItem.className = 'review-item';
 
     let profile = document.createElement('div');
-    profile.className ='profile';
+    profile.className = 'profile';
 
     let profilePic = document.createElement('img');
     profilePic.className = 'profile-pic';
@@ -325,22 +341,22 @@ function renderReviewContainer(e) {
 function renderPage(e) {
     renderTop(e);
 
-    let params1 = "id=" + e['movieID'];
+    let params1 = "id=" + e['id'];
     let request1 = new XMLHttpRequest();
     request1.open("GET", "php/getMovieSchedule.php" + "?" + params1, true);
     request1.send();
 
-    request1.onload = function() {
+    request1.onload = function () {
         let schedule = JSON.parse(request1.response);
         renderScheduleContainer(schedule);
     }
 
-    let params2 = "id=" + e['movieID'];
+    let params2 = "id=" + e['id'];
     let request2 = new XMLHttpRequest();
     request2.open("GET", "php/getMovieReview.php" + "?" + params2, true);
     request2.send();
 
-    request2.onload = function() {
+    request2.onload = function () {
         let review = JSON.parse(request2.response);
         let reviewContent = renderReviewContent(review);
         renderReviewContainer(reviewContent);
@@ -351,15 +367,21 @@ function getMovie() {
     let url = new URL(window.location.href);
     let id = new URLSearchParams(url.search).get("movie");
 
-    let params = "id=" + id;
-    let request = new XMLHttpRequest();
-    request.open("GET", "php/movieDetail.php" + "?" + params, true);
-    request.send();
+    let data = "{}";
 
-    request.onload = function() {
-        let movie = JSON.parse(request.response);
-        renderPage(movie);
-    }
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+            let movie = JSON.parse(this.responseText);
+            renderPage(movie);
+        }
+    });
+
+    xhr.open("GET", "https://api.themoviedb.org/3/movie/" + id + "?api_key=94f5e95d77b0120aa05ca9c7fdeb1df6");
+
+    xhr.send(data);
 }
 
 function book(e) {
