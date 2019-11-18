@@ -52,6 +52,10 @@ input[type=text], input[type=email], input[type=password] {
     text-align: center;
 }
 
+.input-message {
+    font-size: 0.75rem;
+}
+
 .space {
     padding: 8px;
 }
