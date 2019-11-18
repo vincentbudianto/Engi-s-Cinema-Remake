@@ -84,6 +84,11 @@ function phoneValidate() {
         document.getElementById('phone-input').style.borderWidth = '1.5px';
         document.getElementById('false-phone-msg').style.color = 'red';
         document.getElementById('false-phone-msg').innerHTML = 'Phone number must be between 9-12 numbers';
+    } else if (!Number(phone)) {
+        document.getElementById('phone-input').style.borderColor = 'red';
+        document.getElementById('phone-input').style.borderWidth = '1.5px';
+        document.getElementById('false-phone-msg').style.color = 'red';
+        document.getElementById('false-phone-msg').innerHTML = 'Phone number can only contain numbers';
     } else {
         let getData = new FormData(document.forms.registerForm);
         let request = new XMLHttpRequest();
@@ -133,6 +138,26 @@ function passValidate() {
     }
 }
 
+function accountNumberValidate() {
+    let account = document.getElementById('accountNumber-input').value;
+
+    if (account.length != 10) {
+        document.getElementById('accountNumber-input').style.borderColor = 'red';
+        document.getElementById('accountNumber-input').style.borderWidth = '1.5px';
+        document.getElementById('false-accountNumber-msg').style.color = 'red';
+        document.getElementById('false-accountNumber-msg').innerHTML = 'Account number must be 10 numbers long';
+    } else if (!Number(account)) {
+        document.getElementById('accountNumber-input').style.borderWidth = '1.5px';
+        document.getElementById('accountNumber-input').style.borderColor = 'red';
+        document.getElementById('false-accountNumber-msg').style.color = 'red';
+        document.getElementById('false-accountNumber-msg').innerHTML = 'Account number can only contain numbers';
+    } else {
+        document.getElementById('accountNumber-input').style.borderColor = '#ccc';
+        document.getElementById('accountNumber-input').style.borderWidth = '1px';
+        document.getElementById('false-accountNumber-msg').innerHTML = '';
+    }
+}
+
 function getFileName() {
     let filename = document.getElementById('browser-button').files[0].name;
     document.getElementById('profile-picture-name').value = filename;
@@ -147,35 +172,76 @@ function register(e) {
     request.onload = function() {
         switch (request.response.substr(-3)) {
             case '200':
-                window.location.replace('login.html');
+                let registerRequest = new XMLHttpRequest();
+                registerRequest.open("POST", "http://localhost:8080/web_service_bank_pro/services/Register?wsdl", true);
+                registerRequest.setRequestHeader('Content-Type', 'text/xml;charset=utf-8');
+
+                let accountNumber = document.getElementById('accountNumber-input').value;
+                let customerName = document.getElementById('username-input').value;
+
+                let xml =
+                    `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://services/">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <ser:Register>
+                                <account>` + accountNumber + `</account>
+                                <name>` + customerName + `</name>
+                            </ser:Register>
+                        </soapenv:Body>
+                    </soapenv:Envelope>`;
+
+                registerRequest.send(xml);
+
+                registerRequest.onload = function () {
+                    let parser = new DOMParser();
+                    let xmlResponse = parser.parseFromString(registerRequest.response, "text/xml");
+                    let resultResponse = xmlResponse.getElementsByTagName("return")[0].innerHTML;
+
+                    if (resultResponse === "200") {
+                        window.location.replace('login.html');
+                    }
+                }
+
                 break;
 
             case '201':
-                alert('Registration failed');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Registration failed';
                 break;
 
             case '301':
-                alert('Invalid username');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Invalid username';
                 break;
 
             case '302':
-                alert('Invalid phone number');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Invalid phone number';
                 break;
 
             case '303':
-                alert('Profile picture must not be be empty');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Profile picture must not be be empty';
                 break;
 
             case '304':
-                alert('File must not be more than 2 MB');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'File must not be more than 2 MB';
                 break;
 
             case '305':
-                alert('Invalid file type');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Invalid file type';
+                break;
+
+            case '305':
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Invalid account number';
                 break;
 
             case '501':
-                alert('Failed to upload profile picture');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Failed to upload profile picture';
                 break;
         }
     }
