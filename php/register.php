@@ -19,30 +19,42 @@ if ($_POST) {
     $typeProfilePicture = $_FILES["profilePicture"]["type"];
     $tempProfilePicture = $_FILES["profilePicture"]["tmp_name"];
     $sizeProfilePicture = $_FILES["profilePicture"]["size"];
+    $accountNumber = filter_input(INPUT_POST, 'accountNumber', FILTER_SANITIZE_STRING);
     $token = password_hash($username, PASSWORD_DEFAULT);
 
     //Input data validation
     if (!preg_match("/\w/", $username)) {
         echo 301;
         array_push($errors, "Username is invalid");
+        exit();
     }
 
     if ((strlen((string)$phone) < 9) or (strlen((string) $phone) > 12)) {
         echo 302;
         array_push($errors, "Phone number is invalid");
+        exit();
     }
 
     if (empty($nameProfilePicture)) {
         echo 303;
         array_push($errors, "Profile picture can't be empty");
+        exit();
     }
     else if ($sizeProfilePicture > 2000000) {
         echo 304;
         array_push($errors, "File can't be more than 2 MB");
+        exit();
     }
     else if (!in_array($typeProfilePicture, $fileType)) {
         echo 305;
         array_push($errors, "File type is invalid");
+        exit();
+    }
+
+    if (strlen((string) $accountNumber) != 10) {
+        echo 306;
+        array_push($errors, "Bank account is invalid");
+        exit();
     }
 
     if (move_uploaded_file($tempProfilePicture, $directory . $nameProfilePicture)) {
@@ -51,7 +63,9 @@ if ($_POST) {
     else {
         echo 501;
         array_push($errors, "Failed to upload profile picture");
+        exit();
     }
+
 
     // Preparing checkQuery
     $checkQuery = "SELECT * FROM users WHERE (username = :username) OR (email = :email) OR (phone = :phone) LIMIT 1";
@@ -74,22 +88,25 @@ if ($_POST) {
         if ($result['username'] === $username) {
             echo 401;
             array_push($errors, "Username already exist");
+            exit();
         }
 
         if ($result['email'] === $email) {
             echo 402;
             array_push($errors, "Email already exist");
+            exit();
         }
 
         if ($result['phone'] === $phone) {
             echo 403;
             array_push($errors, "Phone number already exist");
+            exit();
         }
     }
 
     if (count($errors) == 0) {
         // Preparing insertQuery
-        $insertQuery = "INSERT INTO users (username, email, phone, password, profilePicture, token) VALUES (:username, :email, :phone, :password, :profilePicture, :token)";
+        $insertQuery = "INSERT INTO users (username, email, phone, password, profilePicture, accountNumber, token) VALUES (:username, :email, :phone, :password, :profilePicture, :accountNumber, :token)";
         $stmt2 = $db->prepare($insertQuery);
 
         // Bind insertQuery parameters
@@ -99,6 +116,7 @@ if ($_POST) {
             ":phone" => $phone,
             ":password" => $password,
             ":profilePicture" => $profilePicture,
+            ":accountNumber" => $accountNumber,
             ":token" => $token
         );
 
@@ -108,9 +126,11 @@ if ($_POST) {
         // Go to login page
         if ($registered) {
             echo 200;
+            exit();
         }
         else {
             echo 201;
+            exit();
         }
     }
 }

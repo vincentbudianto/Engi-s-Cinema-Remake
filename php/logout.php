@@ -4,7 +4,7 @@
 require_once("config.php");
 
 // Variables
-$cookieName = "user";
+$cookieName = "userEngima";
 $user = $_COOKIE[$cookieName];
 
 // Preparing deleteQuery
@@ -24,7 +24,9 @@ if ($logoutStatus) {
     //Delete cookie
     setcookie($cookieName, "", time() - 86400, "/");
     echo 200;
+    exit();
 } else {
     echo 201;
+    exit();
 }
 ?>
