@@ -1,4 +1,4 @@
-let userCookie = (document.cookie.match(/^(?:.*;)?\s*user\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1];
+let userCookie = (document.cookie.match(/^(?:.*;)?\s*userEngima\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1];
 
 if (userCookie != null) {
     window.location.replace('homepage.html');
@@ -15,6 +15,7 @@ input.addEventListener("keyup", function(event) {
 });
 
 function login(e) {
+    e.preventDefault();
     let getData = new FormData(document.forms.loginForm);
     let request = new XMLHttpRequest();
     request.open("POST", "php/login.php", true);
@@ -23,32 +24,35 @@ function login(e) {
     request.onload = function() {
         switch (request.response.substr(-3)) {
             case '200':
-                window.location.replace('homepage.html');
+                location.reload();
                 break;
 
             case '201':
-                alert('Login failed');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Login failed';
                 break;
 
             case '301':
-                alert('Wrong password');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Wrong password';
                 break;
 
             case '302':
-                alert('Username/email is not registered');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Username/email is not registered';
                 break;
 
             case '401':
-                alert('Username/email is empty');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Username/email is empty';
                 break;
 
             case '402':
-                alert('Password is empty');
+                document.getElementById('error-msg').style.color = 'red';
+                document.getElementById('error-msg').innerHTML = 'Password is empty';
                 break;
         }
     }
-
-    e.preventDefault();
 }
 
 document.getElementById('loginForm').addEventListener('submit', login);
