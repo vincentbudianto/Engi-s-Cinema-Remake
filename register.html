@@ -41,6 +41,12 @@
 
                 <div class="space"></div>
 
+                <label for="accountNumber">Bank Account Number</label>
+                <input id="accountNumber-input" type="text" placeholder="must be 10 numbers long" name="accountNumber" onchange="accountNumberValidate();" minlength="10" maxlength="10" required>
+                <span id="false-accountNumber-msg" class="input-message"></span>
+
+                <div class="space"></div>
+
                 <label for="profilePicture">Profile Picture</label>
                 <div class="profile-picture-container">
                     <input id="profile-picture-name" type="text" value="" disabled>
@@ -51,6 +57,7 @@
                 <input id="register-button" type="submit" name="register" value="Register" />
 
                 <div class="space"></div>
+                <span id="error-msg" class="input-message"></span>
 
                 <div class="center-text"><span id="register-text"><b>Already have an account? </b><a href="login.html">Login Here</a></span></div>
 

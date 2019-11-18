@@ -46,7 +46,7 @@ input[type="file"] {
     white-space: nowrap;
     width: 1px;
   }
-   
+
 input[type="file"] + label {
     background-color: #a1a1a1;
     text-align: center;
@@ -62,14 +62,13 @@ input[type="file"] + label {
     display: inline-block;
     padding-left: 2rem 4rem;
 }
-    
+
 input[type="file"] + label:hover {
       opacity: 0.8;
 }
 
 .register-form {
-    margin: 3% auto auto auto;
-    margin-bottom: 3%;
+    margin: 1% auto auto auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px;
     width: 25%;
