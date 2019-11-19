@@ -1,29 +1,56 @@
-let url = new URL(window.location.href);
-let title = new URLSearchParams(url.search).get("title");
-let id = new URLSearchParams(url.search).get("id");
-document.getElementById('title').innerHTML = title;
-document.getElementById('transaction-id').value = id;
-let getData = new FormData(document.forms.reviewForm);
-let request = new XMLHttpRequest();
+function getRatingReview() {
+    let url = new URL(window.location.href);
+    let transaction_id = new URLSearchParams(url.search).get("id");
 
-request.open("POST", "php/editReview.php", true);
-request.send(getData);
+    let xhr = new XMLHttpRequest();
 
-request.onload = function () {
-    if (request.response != null) {
-        data = JSON.parse(request.response);
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(xhr.responseText)
 
-        if (data.userReview != null) {
-            document.getElementById('review-input').value = data.userReview;
-            document.getElementById('review-user').value = data.userReview;
-        }
+            if (response["status"] == 200) {
+                let values = response.values[0];
+                let data = {};
 
-        if (data.userRate != null) {
-            document.getElementById('rating-star').value = data.userRate;
+                let request = new XMLHttpRequest();
+                request.withCredentials = false;
+
+                request.addEventListener("readystatechange", function () {
+                    if (this.readyState === this.DONE) {
+                        let movie = JSON.parse(this.responseText);
+
+                        if (movie['title'] != movie['original_title']) {
+                            document.getElementById('title').innerHTML = movie['title'];
+                            document.getElementById('original_title').innerHTML = movie['original_title'];
+                        }
+                        else {
+                            document.getElementById('title').innerHTML = movie['title'];
+                        }
+
+
+                        if (values.userRate != null) {
+                            document.getElementById('rating-star').value = values.userRate;
+                        }
+
+                        if (values.userReview != null) {
+                            document.getElementById('review-input').value = values.userReview;
+                            document.getElementById('user-review-content').value = values.userReview;
+                        }
+
+                        reset();
+                    }
+                });
+
+                request.open("GET", "https://api.themoviedb.org/3/movie/" + values.movieID + "?api_key=94f5e95d77b0120aa05ca9c7fdeb1df6");
+
+                request.send(data);
+            }
         }
     }
 
-    reset();
+    xhr.open("GET", "http://localhost:3500/web_service_transactions/transaction_id/" + transaction_id, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send();
 }
 
 function changeImage(e) {
@@ -55,7 +82,7 @@ function reset() {
         document.getElementById('star' + j).src = "assets/star_icon_grey.png";
     }
 
-    document.getElementById('review-user').value = document.getElementById('review-input').value;
+    document.getElementById('user-review-content').value = document.getElementById('review-input').value;
 }
 
 function setRating(e) {
@@ -77,33 +104,58 @@ function setRating(e) {
         document.getElementById('rating-star').value = Number(num) + 1;
     }
 
-    document.getElementById('review-user').value = document.getElementById('review-input').value;
+    document.getElementById('user-review-content').value = document.getElementById('review-input').value;
 }
 
 function setReview() {
-    document.getElementById('review-input').value = document.getElementById('review-user').value;
+    document.getElementById('review-input').value = document.getElementById('user-review-content').value;
 }
 
 function addReview(e) {
-    let getData = new FormData(document.forms.reviewForm);
-    let request = new XMLHttpRequest();
-    request.open("POST", "php/review.php", true);
-    request.send(getData);
+    let url = new URL(window.location.href);
+    let transaction_id = new URLSearchParams(url.search).get("id");
 
-    request.onload = function () {
-        switch (request.response.substr(-3)) {
-            case '200':
-                alert('Submission success');
-                window.location.replace('transactions.html');
-                break;
+    let data = {
+        'rating': document.getElementById('rating-star').value,
+        'review': document.getElementById('review-input').value
+    };
 
-            case '201':
-                alert('Submission failed');
-                break;
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(xhr.responseText);
+
+            if (response["status"] == 200) {
+                document.getElementById('success-modal').style.display = 'block';
+            } else {
+                document.getElementById('failed-modal').style.display = 'block';
+            }
         }
     }
 
-    e.preventDefault();
+    xhr.open("PUT", "http://localhost:3500/web_service_transactions/transaction_id/" + transaction_id, false);
+    xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.send(JSON.stringify(data));
 }
 
-document.getElementById('reviewForm').addEventListener('submit', addReview);
+function closeStatus() {
+    document.getElementById('status-modal').style.display = 'none';
+}
+
+let successModal = document.getElementById('success-modal');
+let failedModal = document.getElementById('failed-modal');
+
+window.onclick = function (event) {
+    if (event.target == successModal) {
+        successModal.style.display = "none";
+        window.location.replace('transactions.html');
+    }
+
+    if (event.target == failedModal) {
+        failedModal.style.display = "none";
+    }
+}
