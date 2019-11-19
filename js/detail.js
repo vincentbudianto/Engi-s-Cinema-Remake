@@ -51,7 +51,7 @@ function convertDate(e) {
     return date;
 }
 
-function renderTop(e) {
+function renderTop(e, rating) {
     let itemTop = document.getElementsByClassName("grid-item-top")[0];;
 
     let poster = document.createElement('div');
@@ -73,17 +73,27 @@ function renderTop(e) {
 
     let title = document.createElement('label');
     title.className = 'title';
-    title.innerHTML = e['title'];
+    let original_title = document.createElement('label');
+    original_title.className = 'original_title';
+
+    if (e['title'] != e['original_title']) {
+        title.innerHTML = e['title'];
+        original_title.innerHTML = e['original_title'];
+    }
+    else {
+        title.innerHTML = e['title'];
+    }
 
     let genreDuration = document.createElement('label');
     genreDuration.className = 'genre-duration';
 
-    if (e['genres'] != null) {
+    if (typeof e['genres'] != "undefined" && e['genres'] != null && e['genres'].length != null && e['genres'].length > 0) {
         let genre = e['genres'][0]['name'];
 
         for (i = 1; i < e['genres'].length; i++) {
             genre += ", " + e['genres'][i]['name'];
         }
+
         genreDuration.innerHTML = genre;
     }
 
@@ -107,26 +117,44 @@ function renderTop(e) {
     let date = document.createElement('span');
     date.className = 'date';
 
-    date.innerHTML = convertDate(e['release_date']);
+    if (e['release_date'] != "") {
+        date.innerHTML = convertDate(e['release_date']);
+    } else {
+        date.innerHTML = "-";
+    }
     release.appendChild(date);
 
     let ratingContainer = document.createElement('div');
     ratingContainer.className = 'rating-container';
 
-    let starIcon = document.createElement('img');
-    starIcon.src = "assets/star_icon.png";
+    let starIconIMDB = document.createElement('img');
+    starIconIMDB.src = "assets/star_icon.png";
 
-    let rating = document.createElement('label');
-    rating.className = 'rating';
-    rating.innerHTML = e['vote_average'] + " ";
+    let imdbRating = document.createElement('label');
+    imdbRating.className = 'rating';
+    imdbRating.innerHTML = e['vote_average'] + " ";
 
-    let outTen = document.createElement('span');
-    outTen.className = 'out-ten';
-    outTen.innerHTML = '/10';
+    let outTenIMDB = document.createElement('span');
+    outTenIMDB.className = 'out-ten';
+    outTenIMDB.innerHTML = '/10 (IMBD Rating)';
 
-    rating.appendChild(outTen);
-    ratingContainer.appendChild(starIcon);
-    ratingContainer.appendChild(rating);
+    let starIconUser = document.createElement('img');
+    starIconUser.src = "assets/star_icon.png";
+
+    let userRating = document.createElement('label');
+    userRating.className = 'rating';
+    userRating.innerHTML = rating + " ";
+
+    let outTenUser = document.createElement('span');
+    outTenUser.className = 'out-ten';
+    outTenUser.innerHTML = '/10 (User Rating)';
+
+    imdbRating.appendChild(outTenIMDB);
+    userRating.appendChild(outTenUser);
+    ratingContainer.appendChild(starIconIMDB);
+    ratingContainer.appendChild(imdbRating);
+    ratingContainer.appendChild(starIconUser);
+    ratingContainer.appendChild(userRating);
 
     let descContainer = document.createElement('div');
     descContainer.className = 'desc-container';
@@ -138,6 +166,7 @@ function renderTop(e) {
     descContainer.appendChild(desc);
 
     movieInfo.appendChild(title);
+    movieInfo.appendChild(original_title);
     movieInfo.appendChild(genreDuration);
     movieInfo.appendChild(release);
     movieInfo.appendChild(ratingContainer);
@@ -146,33 +175,44 @@ function renderTop(e) {
     itemTop.appendChild(movieInfo);
 }
 
-function renderScheduleItemContent(e) {
+function renderScheduleItemContent(eDate, eTime, eSeat) {
     let scheduleItemContent = document.createElement('div');
     scheduleItemContent.className = 'schedule-item-content';
 
+    let year = eDate.getFullYear();
+    let month = ("0" + Number(eDate.getMonth() + 1)).slice(-2);
+    let day = ("0" + eDate.getDate()).slice(-2);
+
     let date = document.createElement('div');
     date.className = 'schedule-item-date';
-    date.innerHTML = convertDate(e['scheduleDate']);
+    date.innerHTML = convertDate([year, month, day].join('-'));
 
     let time = document.createElement('div');
     time.className = 'schedule-item-time';
-    time.innerHTML = e['scheduleTime'];
+    time.innerHTML = eTime;
 
     let seats = document.createElement('div');
     seats.className = 'schedule-item-seats';
 
     let seatsAvailable = document.createElement('span');
     seatsAvailable.className = 'seats-available';
-    seatsAvailable.innerHTML = e['seat'] + ' seats';
+    seatsAvailable.innerHTML = eSeat + ' seats';
 
     seats.appendChild(seatsAvailable);
 
     let status = document.createElement('div');
     status.className = 'schedule-item-status';
 
+    let scheduleTime = eTime.split(':');
+    let hour = scheduleTime[0];
+    let minute = scheduleTime[1];
+
+    let scheduleDate = new Date(eDate.getFullYear(), eDate.getMonth(), eDate.getDate(), hour, minute);
+    let currDate = new Date();
+
     let available = document.createElement('label');
     available.className = 'available';
-    if (parseInt(e['seat'], 10) > 0) {
+    if (scheduleDate >= currDate) {
         available.setAttribute('style', 'color: #12abde;');
         available.innerHTML = 'Book Now';
         status.setAttribute('onclick', 'book(this)');
@@ -183,7 +223,7 @@ function renderScheduleItemContent(e) {
 
     let availableIcon = document.createElement('img');
     availableIcon.className = 'available-icon';
-    if (parseInt(e['seat'], 10) > 0) {
+    if (scheduleDate >= currDate) {
         availableIcon.src = 'assets/next_icon.png';
     } else {
         availableIcon.src = 'assets/unavailable_icon.png';
@@ -200,18 +240,70 @@ function renderScheduleItemContent(e) {
     return scheduleItemContent;
 }
 
-function renderScheduleItem(e) {
+function renderScheduleItem(eDate, eID) {
+    let timeList1 = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"];
+    let timeList2 = ["10:00", "13:00"];
     let scheduleItem = document.createElement('div');
     scheduleItem.className = 'schedule-item';
 
-    for (i = 0; i < e.length; i++) {
-        scheduleItem.append(renderScheduleItemContent(e[i]));
+    for (i = 0; i < 5; i++) {
+        let valid = false;
+        let year = eDate.getFullYear();
+        let month = ("0" + Number(eDate.getMonth() + 1)).slice(-2);
+        let day = ("0" + eDate.getDate()).slice(-2);
+        let histDate = [year, month, day].join('-');
+
+        for (j = 0; j < timeList1.length; j++) {
+            if (Number(eID + month + j) % Number(day) == 0) {
+                valid = true;
+                let time = timeList1[j];
+                let xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let response = JSON.parse(xhr.responseText)
+
+                        if (response["status"] == 200) {
+                            let values = response.values;
+                            scheduleItem.append(renderScheduleItemContent(eDate, time, 40 - values.length));
+                        }
+                    }
+                }
+
+                xhr.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList1[j], false);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send()
+            }
+        }
+
+        if (!valid) {
+            for (k = 0; k < timeList2.length; k++) {
+                let request = new XMLHttpRequest();
+
+                request.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let response = JSON.parse(request.responseText)
+
+                        if (response["status"] == 200) {
+                            let values = response.values;
+                            scheduleItem.append(renderScheduleItemContent(eDate, timeList2[k], 40 - values.length));
+                        }
+                    }
+                }
+
+                request.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList2[k], false);
+                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                request.send()
+            }
+        }
+
+        eDate.setDate(eDate.getDate() + 1);
     }
 
     return scheduleItem;
 }
 
-function renderScheduleContainer(e) {
+function renderScheduleContainer(eDate, eID) {
     let scheduleContainer = document.getElementsByClassName('schedule-container')[0];
 
     let schedule = document.createElement('div');
@@ -244,7 +336,13 @@ function renderScheduleContainer(e) {
     scheduleItemHeader.appendChild(seats);
 
     scheduleContent.appendChild(scheduleItemHeader);
-    scheduleContent.appendChild(renderScheduleItem(e));
+
+    if (!isNaN(eDate.getTime())) {
+        for (i = 0; i < 5; i++) {
+            scheduleContent.appendChild(renderScheduleItem(eDate, eID));
+
+        }
+    }
 
     schedule.appendChild(bottomTitle);
     schedule.appendChild(scheduleContent);
@@ -252,16 +350,16 @@ function renderScheduleContainer(e) {
     scheduleContainer.appendChild(schedule);
 }
 
-function renderReviewItem(e) {
+function renderReviewItem(e, f) {
     let reviewItem = document.createElement('div');
     reviewItem.className = 'review-item';
 
     let profile = document.createElement('div');
-    profile.className = 'profile';
+    profile.className ='profile';
 
     let profilePic = document.createElement('img');
     profilePic.className = 'profile-pic';
-    profilePic.src = e['profilePicture'];
+    profilePic.src = f.profilePicture;
 
     profile.appendChild(profilePic);
 
@@ -270,7 +368,7 @@ function renderReviewItem(e) {
 
     let uname = document.createElement('label');
     uname.className = 'uname';
-    uname.innerHTML = e['username'];
+    uname.innerHTML = f.username;
 
     let userRating = document.createElement('div');
     userRating.className = 'user-rating';
@@ -281,7 +379,12 @@ function renderReviewItem(e) {
 
     let ratingValueContainer = document.createElement('label');
     ratingValueContainer.className = 'rating-value-container';
-    ratingValueContainer.innerHTML = e['userRate'];
+
+    if (e.userRate != null) {
+        ratingValueContainer.innerHTML = e.userRate;
+    } else {
+        ratingValueContainer.innerHTML = "0";
+    }
 
     let outTen = document.createElement('span');
     outTen.className = 'rating-out-10';
@@ -297,7 +400,7 @@ function renderReviewItem(e) {
 
     let userReviewContent = document.createElement('p');
     userReviewContent.className = 'user-review-content';
-    userReviewContent.innerHTML = e['userReview']
+    userReviewContent.innerHTML = e.userReview;
 
     userReviewContainer.appendChild(userReviewContent);
 
@@ -316,7 +419,18 @@ function renderReviewContent(e) {
     reviewContent.className = 'review-content';
 
     for (i = 0; i < e.length; i++) {
-        reviewContent.append(renderReviewItem(e[i]));
+        let value = e[i];
+        let params = "id=" + value.userID;
+        let request = new XMLHttpRequest();
+        request.open("GET", "php/userInfo.php" + "?" + params, true);
+        request.send();
+
+        request.onload = function () {
+            if (value.userReview != null) {
+                let user = JSON.parse(request.responseText);
+                reviewContent.append(renderReviewItem(value, user));
+            }
+        }
     }
 
     return reviewContent;
@@ -339,28 +453,44 @@ function renderReviewContainer(e) {
 }
 
 function renderPage(e) {
-    renderTop(e);
-
-    let params1 = "id=" + e['id'];
     let request1 = new XMLHttpRequest();
-    request1.open("GET", "php/getMovieSchedule.php" + "?" + params1, true);
-    request1.send();
 
-    request1.onload = function () {
-        let schedule = JSON.parse(request1.response);
-        renderScheduleContainer(schedule);
+    request1.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(request1.responseText)
+
+            if (response["status"] == 200) {
+                let values = response.values;
+                let sumRate = 0;
+                let rating = 0;
+                let count = 0;
+
+                if (values.length > 0) {
+                    for (i = 0; i < values.length; i++) {
+                        if (values[i].userRate != null) {
+                            sumRate += Number(values[i].userRate);
+                            count++;
+                        }
+                    }
+
+                    rating = sumRate / count;
+                }
+
+                renderTop(e, rating.toFixed(1));
+
+                let release_date = e['release_date'].split('-');
+                let date = new Date(release_date[0], release_date[1] - 1, release_date[2]);
+                renderScheduleContainer(date, e['id']);
+
+                let reviewContent = renderReviewContent(values);
+                renderReviewContainer(reviewContent);
+            }
+        }
     }
 
-    let params2 = "id=" + e['id'];
-    let request2 = new XMLHttpRequest();
-    request2.open("GET", "php/getMovieReview.php" + "?" + params2, true);
-    request2.send();
-
-    request2.onload = function () {
-        let review = JSON.parse(request2.response);
-        let reviewContent = renderReviewContent(review);
-        renderReviewContainer(reviewContent);
-    }
+    request1.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + e["id"], true);
+    request1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request1.send()
 }
 
 function getMovie() {
