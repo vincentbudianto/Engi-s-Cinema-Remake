@@ -1,17 +1,11 @@
 function getUsername() {
-    let cookie = document.cookie;
-
-    if (cookie == null || cookie == "") {
-        alert("You haven't login");
-        window.location.replace('login.html');
-    }
-
     let request = new XMLHttpRequest();
-    request.open("POST", "php/username.php", true);
+    request.open("POST", "php/user.php", true);
     request.send();
 
-    request.onload = function () {
-        document.getElementById('username').innerHTML = request.response;
+    request.onload = function() {
+        let username = JSON.parse(request.responseText).username;
+        document.getElementById('username').innerHTML = username;
     }
 }
 
