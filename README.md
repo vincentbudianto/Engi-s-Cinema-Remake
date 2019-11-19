@@ -9,7 +9,7 @@
 <h2 align="center">
     <b>
         <br>
-        Engima Remake
+        Engi's Cinema Remake
         <br>
         <br>
     </b>
@@ -24,11 +24,14 @@ Website ini dibuat dengan menggunakan Javascript, HTML dan CSS untuk frontend da
 <br>
 
 ## Requirement
-| Nomor | Requirement                | Penjelasan                                                   |
-|:-----:|:---------------------------|:-------------------------------------------------------------|
-| 1.    | XAMPP                      | Dibutuhkan untuk menjalankan database MySQL                  |
-| 2.    | PHP                        | Dibutuhkan untuk menjalankan program backend engima          |
-| 3.    | Browser (support html 2.0) | Dibutuhkan sebagai sarana utama menjalankan frontend Engima  |
+| Nomor | Requirement                | Penjelasan                                                             |
+|:-----:|:---------------------------|:-----------------------------------------------------------------------|
+| 1.    | Browser (support html 2.0) | Dibutuhkan sebagai sarana utama menjalankan frontend Engima            |
+| 2.    | Koneksi Internet           | Dibutuhkan untuk mendapatkan data dari TheMovieDB API                  |
+| 3.    | PHP                        | Dibutuhkan untuk menjalankan program backend engima                    |
+| 4.    | Web service bank pro       | Dibutuhkan untuk menambahkan akun bank saat registrasi dan mendapatkan status transaksi pengguna                                                                                     |
+| 5.    | Web service transaksi      | Dibutuhkan untuk mendapatkan data transaksi pengguna                   |
+| 6.    | XAMPP                      | Dibutuhkan untuk menjalankan database MySQL dan web services           |
 
 <br>
 
@@ -48,31 +51,81 @@ Website ini dibuat dengan menggunakan Javascript, HTML dan CSS untuk frontend da
 
 ## Perubahan Basis Data Engima
 
-| Number | Relasi | Status     |
-|:------:|:-------|:-----------|
-| 1.     | Film   | Dihapus    |
+| Number | Relasi               | Status          |
+|:------:|:---------------------|:----------------|
+| 1.     | movies               | Deleted         |
+| 2.     | schedule             | Deleted         |
+| 3.     | seat                 | Deleted         |
+| 4.     | showing              | Deleted         |
+| 6.     | transactions_history | Deleted         |
+| 7.     | users                | + accountNumber |
 
 <br>
 
 ## Screenshots Perubahan Tampilan Engima
 
-### Transaction History
-
-![](screenshots/)
-<br>
-<br>
-![](screenshots/)
-<br>
-<br>
-![](screenshots/)
-<br>
-<br>
-
 ### Film Detail
-![](screenshots/)
+![](screenshots/filmDetail1.png)
 <br>
 <br>
-![](screenshots/)
+![](screenshots/filmDetail2.png)
+<br>
+<br>
+
+### Homepage
+![](screenshots/homepage.png)
+<br>
+<br>
+
+### Register
+![](screenshots/register.png)
+<br>
+<br>
+
+### Review
+![](screenshots/review1.png)
+<br>
+<br>
+![](screenshots/review2.png)
+<br>
+<br>
+
+### Search
+![](screenshots/search1.png)
+<br>
+<br>
+![](screenshots/search2.png)
+<br>
+<br>
+
+### Buy Ticket
+![](screenshots/buyTicket1.png)
+<br>
+<br>
+![](screenshots/buyTicket2.png)
+<br>
+<br>
+![](screenshots/buyTicket3.png)
+<br>
+<br>
+![](screenshots/buyTicket4.png)
+<br>
+<br>
+![](screenshots/buyTicket5.png)
+<br>
+<br>
+![](screenshots/buyTicket6.png)
+<br>
+<br>
+
+### Transactions History
+![](screenshots/transactionsHistory1.png)
+<br>
+<br>
+![](screenshots/transactionsHistory2.png)
+<br>
+<br>
+![](screenshots/transactionsHistory3.png)
 <br>
 <br>
 
@@ -90,42 +143,92 @@ Website ini dibuat dengan menggunakan Javascript, HTML dan CSS untuk frontend da
 
 Beberapa teknik yang digunakan pada pengerjaan tugas kali ini
 
-|              | Kata Kunci                                                                           |
-| ------------ | ------------------------------------------------------------------------------------ |
-| HTTP methods | get, post, put, delete, response, onload                                             |
-| CSS          | margin, padding, font-size, text-align, flex, grid, border, color, div, span         |
-| Javascript   | XMLHTTPRequest, addEventListener, FormData, createElement, appendChild, parentNode   |
-| PHP          | PDO, $_GET, $_POST, $_COOKIE, var_dump, print_r, echo, require, fungsi header        |
-| SQL query    | SELECT, INSERT, UPDATE, DELETE, WHERE, operator LIKE                                 |
+|              | Kata Kunci                                                                         |
+| ------------ | ---------------------------------------------------------------------------------- |
+| HTTP methods | get, post, put, delete, response, onload, onreadystatechange                       |
+| CSS          | margin, padding, font-size, text-align, flex, grid, border, color, div, span       |
+| Javascript   | XMLHTTPRequest, addEventListener, FormData, createElement, appendChild, parentNode |
+| PHP          | PDO, $_GET, $_POST, $_COOKIE, var_dump, print_r, echo, require, fungsi header      |
+| SQL query    | SELECT, INSERT, UPDATE, DELETE, WHERE, operator LIKE                               |
 
 <br>
 
 ## Pembagian Tugas
 
 ### REST
-| Number | Feature                      | Assignment         |
-|:------:|:-----------------------------|:-------------------|
-| 1.     | Get user transactions        | 13517137           |
-| 2.     | Add transactions             | 13517137           |
-| 3.     | Update transaction status    | 13517137           |
+| Number | Feature                        | Assignment |
+|:------:|:-------------------------------|:-----------|
+| 1.     | Database configuration         | 13517137   |
+| 2.     | Get all transactions           | 13517137   |
+| 3.     | Get user transactions          | 13517137   |
+| 4.     | Add transaction                | 13517137   |
+| 5.     | Update transaction status      | 13517137   |
+| 6.     | Delete transaction             | 13517137   |
+| 7.     | Default response configuration | 13517137   |
+| 8.     | REST server configuration      | 13517137   |
 
 ### SOAP
-| Number | Feature                      | Assignment         |
-|:------:|:-----------------------------|:-------------------|
-| 1.     | Login                        | 13517137           |
+| Number | Feature                                   | Assignment |
+|:------:|:------------------------------------------|:-----------|
+| 1.     | Login service                             | 13517137   |
+| 2.     | Register service                          | 13517137   |
+| 3.     | Add balance service                       | 13517137   |
+| 4.     | Get account number service                | 13517137   |
+| 5.     | Get customer balance service              | 13517137   |
+| 6.     | Transfer service                          | 13517137   |
+| 7.     | Get customer transactions history service | 13517137   |
+| 8.     | Get virtual number service                | 13517137   |
+| 9.     | Check transactions service                | 13517137   |
 
 ### ReactJS
-| Number | Feature                      | Assignment         |
-|:------:|:-----------------------------|:-------------------|
-| 1.     | Title                        | 13517137           |
-| 2.     | Login                        | 13517137           |
+| Number | Feature                   | Assignment |
+|:------:|:--------------------------|:-----------|
+| 1.     | Title page                | 13517137   |
+| 2.     | Login page                | 13517137   |
+| 3.     | Transfer page             | 13517137   |
+| 4.     | Add balance page          | 13517137   |
+| 5.     | Transactions history page | 13517137   |
+| 5.     | Logout function           | 13517137   |
 
 ### Perubahan Engima
-| Number | Feature                      | Assignment         |
-|:------:|:-----------------------------|:-------------------|
-| 1.     | Homepage                     | 13517137           |
-| 2.     | Movies Detail                | 13517137           |
-| 3.     | Search                       | 13517137           |
+| Number | Feature                                 | Assignment |
+|:------:|:----------------------------------------|:-----------|
+| 1.     | Login                                   | 13517137   |
+| 2.     | Register                                | 13517137   |
+| 3.     | Homepage                                | 13517137   |
+| 4.     | Movies Detail                           | 13517137   |
+| 5.     | Review                                  | 13517137   |
+| 6.     | Search                                  | 13517137   |
+| 7.     | Transactions History                    | 13517137   |
+| 8.     | Ticket                                  | 13517137   |
+| 9.     | Connecting to TheMovieDB API            | 13517137   |
+| 10.    | Connecting to transactions web services | 13517137   |
+| 11.    | Connecting to bank pro web services     | 13517137   |
+
+### README Engis Cinema
+| Number | Feature     | Assignment |
+|:------:|:------------|:-----------|
+| 1.     | Deskripsi   | 13517137   |
+| 2.     | Screenshots | 13517137   |
+
+### README Bank Pro
+| Number | Feature     | Assignment |
+|:------:|:------------|:-----------|
+| 1.     | Deskripsi   | 13517137   |
+| 2.     | Screenshots | 13517137   |
+
+### README WS-Transaksi
+| Number | Feature                | Assignment |
+|:------:|:-----------------------|:-----------|
+| 1.     | Deskripsi              | 13517137   |
+| 2.     | Basis Data Web Service | 13517137   |
+
+### README WS-Bank
+| Number | Feature                | Assignment |
+|:------:|:-----------------------|:-----------|
+| 1.     | Deskripsi              | 13517137   |
+| 2.     | Basis Data Web Service | 13517137   |
+
 
 <p align="center">
     <b>
