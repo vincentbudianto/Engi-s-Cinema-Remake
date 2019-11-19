@@ -185,7 +185,17 @@ function renderMovies(e) {
 
     let title = document.createElement('label');
     title.className = 'title';
-    title.innerHTML = e['title'];
+    let original_title = document.createElement('label');
+    original_title.className = 'original_title';
+
+    if (e['title'] != e['original_title']) {
+        title.innerHTML = e['title'];
+        original_title.innerHTML = e['original_title'];
+    }
+    else {
+        title.innerHTML = e['title'];
+    }
+
     title.setAttribute('onclick', 'viewDetail2(this)');
 
     let rating = document.createElement('div');
@@ -201,6 +211,7 @@ function renderMovies(e) {
     rating.appendChild(starIcon);
     rating.appendChild(ratingValue);
     movieInfo.appendChild(title);
+    movieInfo.appendChild(original_title);
     movieInfo.appendChild(rating);
 
     let description = document.createElement('div');
