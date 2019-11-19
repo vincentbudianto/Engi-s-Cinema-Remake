@@ -502,7 +502,7 @@ function transactionsNotFound(transactionID) {
         }
     }
 
-    xhr.open("PUT", "http://localhost:3500/web_service_transactions", s);
+    xhr.open("PUT", "http://localhost:3500/web_service_transactions", true);
     xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
     xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
