@@ -9,7 +9,7 @@
         <title>Add Review</title>
     </head>
 
-    <body>
+    <body onload="getRatingReview();">
         <div class="navbar">
             <div class="navbar-wrapper">
                 <label class="navbar-button" id="navbar-title" onclick="location.href='homepage.html'"><span
@@ -23,7 +23,7 @@
                 <label class="navbar-button" id="logout-button" onclick="logout()">Logout</label>
             </div>
         </div>
-        </div>
+
         <div class="content">
             <div class="grid-container">
                 <div class="grid-item">
@@ -32,13 +32,14 @@
                             <img src="assets/back_icon.png" onclick="location.href='transactions.html'">
                         </div>
                         <div class="ticket-info">
-                            <label id="title"></label>
+                            <div id="title"></div>
+                            <div id="original_title"></div>
                         </div>
                     </div>
                 </div>
+
                 <div class="grid-item">
-                    <form enctype="multipart/form-data" id="reviewForm" method="POST">
-                        <input type="hidden" id="transaction-id" name="transaction-id" value="">
+                    <form enctype="multipart/form-data" id="reviewForm">
                         <div class="grid-body">
                             <div class="grid-rating">
                                 <label id="rating">Add Rating</label>
@@ -61,18 +62,40 @@
 
                             <label id="review">Add Review</label>
                             <div class="grid-review">
-                                <textarea id="review-user" name="review" onkeyup="setReview()" required></textarea>
+                                <div id="user-review-container">
+                                    <textarea id="user-review-content" name="review" onkeyup="setReview()" required></textarea>
+                                </div>
                             </div>
                             <input type="hidden" id="review-input" name="review-input" value="">
 
                             <div class="grid-button">
                                 <div>
                                     <button id="cancel" type="button" onclick="location.href='transactions.html'">Cancel</button>
-                                    <button id="submit" type="submit" name="submit">Submit</button>
+                                    <button id="submit" type="button" name="submit" onclick="addReview();">Submit</button>
                                 </div>
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="success-modal" class="modal">
+            <span ></span>
+            <div class="modal-content-container">
+                <div class="modal-content">
+                    <span id="text1">Review saved successfully</span>
+                    <span id="text3"></span>
+                </div>
+            </div>
+        </div>
+
+        <div id="failed-modal" class="modal">
+            <span ></span>
+            <div class="modal-content-container">
+                <div class="modal-content">
+                    <span id="text1">Failed to save review</span>
+                    <span id="text3">Please try again</span>
                 </div>
             </div>
         </div>
