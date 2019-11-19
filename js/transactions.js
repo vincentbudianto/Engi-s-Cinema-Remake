@@ -103,7 +103,9 @@ function renderGridItem(e, f) {
 
     let scheduleTime = document.createElement('div');
     scheduleTime.id = 'schedule-time';
-    scheduleTime.innerHTML = convertDate(e.historyDate.substr(0,10)) + ' - ' + e.historyTime;
+    let d = new Date(e.historyDate);
+    historyDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    scheduleTime.innerHTML = convertDate(historyDate) + ' - ' + e.historyTime;
 
     schedule.appendChild(scheduleText);
     schedule.appendChild(scheduleTime);
@@ -242,12 +244,15 @@ function renderGridItem(e, f) {
     addReview.innerHTML = 'Add Review';
     addReview.setAttribute('onclick', 'changeReview(this)');
 
-    let date = e.historyDate + ' 00:00:00';
+    let date = historyDate + ' ' + e.historyTime + ':00';
     let showDate = new Date(date);
     let today = new Date();
     let temp = today.getFullYear() + '-' + (today.getMonth() + 1) +
         '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes();
     let todayDate = new Date(temp);
+
+    console.log("todayDate :", todayDate);
+    console.log("showDate :", showDate);
 
     if (e.userReview == null) {
         addReview.setAttribute('style', 'display: default;');
