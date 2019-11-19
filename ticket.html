@@ -62,8 +62,19 @@
                                 <div class="seat-number" id="seat-28" value="1" onclick="select(this);">28</div>
                                 <div class="seat-number" id="seat-29" value="1" onclick="select(this);">29</div>
                                 <div class="seat-number" id="seat-30" value="1" onclick="select(this);">30</div>
+                                <div class="seat-number" id="seat-31" value="1" onclick="select(this);">31</div>
+                                <div class="seat-number" id="seat-32" value="1" onclick="select(this);">32</div>
+                                <div class="seat-number" id="seat-33" value="1" onclick="select(this);">33</div>
+                                <div class="seat-number" id="seat-34" value="1" onclick="select(this);">34</div>
+                                <div class="seat-number" id="seat-35" value="1" onclick="select(this);">35</div>
+                                <div class="seat-number" id="seat-36" value="1" onclick="select(this);">36</div>
+                                <div class="seat-number" id="seat-37" value="1" onclick="select(this);">37</div>
+                                <div class="seat-number" id="seat-38" value="1" onclick="select(this);">38</div>
+                                <div class="seat-number" id="seat-39" value="1" onclick="select(this);">39</div>
+                                <div class="seat-number" id="seat-40" value="1" onclick="select(this);">40</div>
                                 <div class="screen">Screen</div>
                                 <input type="hidden" id="seat-saved" name="seat-saved" value=0>
+                                <input type="hidden" id="price-saved" name="price-saved" value=0>
                             </div>
                         </div>
                         <div class="summary">
@@ -82,13 +93,25 @@
             </div>
         </div>
 
-        <div id="modal" class="modal">
-            <span onclick="close();"></span>
+        <div id="payment-modal" class="modal">
+            <span></span>
             <div class="modal-content-container">
-                <div class="modal-content">
-                    <p id="success">Payment Success!</p>
-                    <p id="thanks">Thank you for purchasing! You can view your purchase now.</p>
-                    <button id="modal-button" onclick="goToTransaction();">Go to transaction history</button>
+                <div class="payment-modal-content">
+                    <div id="ticket1">Ticket booked!</div>
+                    <div id="ticket2">Please finish your transfer to <span id="virtual-account"></span> before the timer runs out.</div>
+                    <div id="time">Time left</div>
+                    <div id="timer">--:--</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="status-modal" class="modal">
+            <span onclick="closeStatus();"></span>
+            <div class="modal-content-container">
+                <div class="status-modal-content">
+                    <p id="status"></p>
+                    <p id="thanks"></p>
+                    <button id="status-button" class="modal-button" onclick="goToTransaction();">Go to transaction history</button>
                 </div>
             </div>
         </div>

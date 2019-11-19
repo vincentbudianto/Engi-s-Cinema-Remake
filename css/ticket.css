@@ -6,7 +6,7 @@ img {
 .grid-container {
     box-sizing: border-box;
     display: grid;
-    grid-template-rows: 100px 190px;
+    grid-template-rows: 100px 220px;
     grid-gap: 20px;
     margin-top: 5%;
     margin-right: 10%;
@@ -66,12 +66,12 @@ img {
         width: inherit;
         white-space: nowrap;
         overflow-x: auto;
-    }   
+    }
 }
 
 .seat-number-container {
     display: grid;
-    grid-template-rows: repeat(3, 25px);
+    grid-template-rows: repeat(5, 25px);
     grid-template-columns: repeat(10, 25px);
     grid-gap: 20px;
     width: 100%;
@@ -81,23 +81,23 @@ img {
 @media only screen and (max-width: 1360px) {
     .seat-number-container {
         display: grid;
-        grid-template-rows: repeat(3, 40px);
+        grid-template-rows: repeat(5, 40px);
         grid-template-columns: repeat(10, 40px);
         grid-gap: 20px;
         width: 100%;
         height: 100%;
-    }   
+    }
 }
 
 @media only screen and (max-width: 1080px) {
     .seat-number-container {
         display: grid;
-        grid-template-rows: repeat(3, 25px);
+        grid-template-rows: repeat(5, 25px);
         grid-template-columns: repeat(10, 25px);
         grid-gap: 20px;
         width: 100%;
         height: 100%;
-    }   
+    }
 }
 
 .seat-number {
@@ -112,16 +112,16 @@ img {
 }
 
 .seat-number:hover {
-    background-color: #a6eaff; 
+    background-color: #a6eaff;
     opacity: 0.8;
 }
 
-.screen { 
+.screen {
     background-color: grey;
     border-radius: 3px;
     color: white;
     text-align: center;
-    grid-area: 4 / 1 / 4 / 11;
+    grid-area: 5 / 1 / 5 / 11;
     padding-top: 5px;
     height: 25px;
 }
@@ -162,25 +162,48 @@ img {
     background-color: white;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     opacity: 1;
     border-radius: 5px;
     margin: 12% auto auto auto;
-    padding: 4% 4% 4% 4%;
+    padding: 3% 3% 2% 3%;
     font-weight: bold;
     text-align: center;
-    width: 20%;
+    width: 25%;
     height: auto;
 }
 
-.modal-content {
+.payment-modal-content {
+    display: grid;
+    justify-content: center;
     box-sizing: content-box;
     height: inherit;
     width: 100%;
 }
 
+.status-modal-content {
+    box-sizing: content-box;
+    height: inherit;
+    width: 100%;
+}
+
+.modal-button {
+    background-color: #12abde;
+    border-radius: 5px;
+    color: white;
+    width: 100%;
+    height: 50px;
+    margin-top: 2%;
+}
+
 #title {
     font-size: 1.75rem;
+}
+
+#original_title {
+    color: grey;
+    font-size: 1rem;
+    font-weight: bold;
     margin-bottom: 10px;
 }
 
@@ -211,6 +234,13 @@ img {
     margin-top: 20px;
 }
 
+#summary-original_title {
+    color: grey;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
 #summary-schedule {
     font-size: 0.8rem;
     margin-top: 5px;
@@ -225,7 +255,7 @@ img {
     justify-content: flex-end;
 }
 
-#buy-button { 
+#buy-button {
     background-color: #12abde;
     border-radius: 5px;
     color: white;
@@ -233,7 +263,44 @@ img {
     height: 35px;
 }
 
-#success {
+#ticket1 {
+    color: #379472;
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
+
+#ticket2 {
+    color: #7a7a7a;
+    font-size: 1rem;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1.5px solid #7a7a7a;
+    width: 379.8px;
+}
+
+#virtual-account {
+    color: #12abde;
+    font-weight: bold;
+}
+
+#time {
+    color: red;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+#timer {
+    color: #7a7a7a;
+    font-size: 2rem;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+#status {
     color: #379472;
     font-size: 1.5rem;
     margin-top: 0;
@@ -243,15 +310,6 @@ img {
 #thanks {
     color: #7a7a7a;
     font-size: 1rem;
-}
-
-#modal-button {
-    background-color: #12abde;
-    border-radius: 5px;
-    color: white;
-    width: 85%;
-    height: 50px;
-    margin-top: 2%;
 }
 
 #filled {
@@ -265,8 +323,8 @@ img {
     display: none;
 }
 
-:checked+label{ 
-    background-color: #a6eaff; 
-    border: #a6eaff; 
-    opacity: 0.8; 
-} 
+:checked+label{
+    background-color: #a6eaff;
+    border: #a6eaff;
+    opacity: 0.8;
+}
