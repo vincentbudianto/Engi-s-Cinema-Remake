@@ -59,6 +59,13 @@ label {
     font-weight: bold;
 }
 
+.original_title {
+    cursor: pointer;
+    color: grey;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
 .rating-container {
     display: grid;
     grid-template-columns: 25px auto;
