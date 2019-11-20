@@ -39,13 +39,11 @@ if ($_POST) {
         echo 303;
         array_push($errors, "Profile picture can't be empty");
         exit();
-    }
-    else if ($sizeProfilePicture > 2000000) {
+    } elseif ($sizeProfilePicture > 2000000) {
         echo 304;
         array_push($errors, "File can't be more than 2 MB");
         exit();
-    }
-    else if (!in_array($typeProfilePicture, $fileType)) {
+    } elseif (!in_array($typeProfilePicture, $fileType)) {
         echo 305;
         array_push($errors, "File type is invalid");
         exit();
@@ -59,8 +57,7 @@ if ($_POST) {
 
     if (move_uploaded_file($tempProfilePicture, $directory . $nameProfilePicture)) {
         $profilePicture = $tmp_dir . $nameProfilePicture;
-    }
-    else {
+    } else {
         echo 501;
         array_push($errors, "Failed to upload profile picture");
         exit();
@@ -106,7 +103,8 @@ if ($_POST) {
 
     if (count($errors) == 0) {
         // Preparing insertQuery
-        $insertQuery = "INSERT INTO users (username, email, phone, password, profilePicture, accountNumber, token) VALUES (:username, :email, :phone, :password, :profilePicture, :accountNumber, :token)";
+        $insertQuery = "INSERT INTO users (username, email, phone, password, profilePicture, accountNumber, token)
+        VALUES (:username, :email, :phone, :password, :profilePicture, :accountNumber, :token)";
         $stmt2 = $db->prepare($insertQuery);
 
         // Bind insertQuery parameters
@@ -127,8 +125,7 @@ if ($_POST) {
         if ($registered) {
             echo 200;
             exit();
-        }
-        else {
+        } else {
             echo 201;
             exit();
         }

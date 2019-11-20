@@ -21,4 +21,3 @@ if ($_GET) {
     echo json_encode($user, JSON_INVALID_UTF8_IGNORE);
     exit();
 }
-?>

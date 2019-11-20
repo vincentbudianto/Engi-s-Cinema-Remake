@@ -15,7 +15,7 @@ if ($_POST) {
     // Input data validation
     if (empty($username)) {
         echo 401;
-  	    array_push($errors, "Username/email is required");
+        array_push($errors, "Username/email is required");
         exit();
     }
 
@@ -63,24 +63,20 @@ if ($_POST) {
                     if ($loginStatus) {
                         echo 200;
                         exit();
-                    }
-                    else {
+                    } else {
                         echo 201;
                         exit();
                     }
                 }
-            }
-            else {
+            } else {
                 echo 301;
                 array_push($errors, "Wrong password");
                 exit();
             }
-        }
-        else {
+        } else {
             echo 302;
             array_push($errors, "Username/email is not registered");
             exit();
         }
     }
 }
-?>

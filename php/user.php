@@ -18,4 +18,3 @@ $stmt->execute($params);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 echo json_encode($user, JSON_INVALID_UTF8_IGNORE);
 exit();
-?>

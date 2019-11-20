@@ -29,4 +29,3 @@ if ($logoutStatus) {
     echo 201;
     exit();
 }
-?>
