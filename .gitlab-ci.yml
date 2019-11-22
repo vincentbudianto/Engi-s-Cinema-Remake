@@ -24,9 +24,9 @@ lintjs:
   image: node:latest
   stage: test
   before_script:
-    - sudo npm install
+    - npm install
   script:
-    - sudo npm run lint
+    - npm run lint
 
 deployToAWS:
   # Node docker image on which this would be run
