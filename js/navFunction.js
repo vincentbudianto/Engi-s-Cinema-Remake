@@ -34,7 +34,7 @@ function logout() {
 				alert('Logout failed');
 				break;
 		}
-	}
+	};
 }
 
 function viewDetail(e) {

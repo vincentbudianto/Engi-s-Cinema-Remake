@@ -40,7 +40,7 @@ function changePage(e) {
             changeBackButton(1);
         }
 
-        let pages = document.getElementsByClassName('page-button')
+        let pages = document.getElementsByClassName('page-button');
         let totalPages = pages.length;
         for (i = 0; i < totalPages; i++) {
             pages[i].style.color = '#12abde';
@@ -77,7 +77,7 @@ function onePage(e) {
             changeBackButton(1);
         }
 
-        let pages = document.getElementsByClassName('page-button')
+        let pages = document.getElementsByClassName('page-button');
         let totalPages = pages.length;
         for (i = 0; i < totalPages; i++) {
             pages[i].style.color = '#12abde';
@@ -222,7 +222,7 @@ function renderMovies(e) {
     desc.innerHTML = e['overview'];
 
     description.appendChild(desc);
-    movieInfo.appendChild(description)
+    movieInfo.appendChild(description);
 
     item.appendChild(movieInfo);
 
@@ -262,7 +262,7 @@ function renderPage(last) {
     let back = document.createElement('button');
     back.id = 'back-button';
     back.setAttribute('onclick', 'onePage(-1)');
-    back.innerHTML = 'Back'
+    back.innerHTML = 'Back';
 
     item.appendChild(back);
 
@@ -292,7 +292,7 @@ function renderPage(last) {
     let next = document.createElement('button');
     next.id = 'next-button';
     next.setAttribute('onclick', 'onePage(1)');
-    next.innerHTML = 'Next'
+    next.innerHTML = 'Next';
 
     item.appendChild(next);
     container.appendChild(item);

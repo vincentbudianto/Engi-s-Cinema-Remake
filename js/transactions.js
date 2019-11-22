@@ -358,15 +358,15 @@ function checkTransactionsStatus(e) {
     let sort = [];
 
     for (i = 0; i < e.length; i++) {
-        sort[sort.length] = "Pending"
+        sort[sort.length] = "Pending";
     }
 
     for (j = 0; j < e.length; j++) {
-        sort[sort.length] = "Success"
+        sort[sort.length] = "Success";
     }
 
     for (k = 0; k < e.length; k++) {
-        sort[sort.length] = "Cancelled"
+        sort[sort.length] = "Cancelled";
     }
 
     let valuesList = e;
@@ -417,8 +417,8 @@ function checkTransactionsStatus(e) {
                 } else {
                     transactionsNotFound(transactionID, startTime, values);
                 }
-            }
-        }
+            };
+        };
     }
 
     sort.forEach(function(key) {
@@ -432,12 +432,12 @@ function checkTransactionsStatus(e) {
             } else {
                 return true;
             }
-        })
-    })
+        });
+    });
 
     res.forEach(function(item) {
         renderHistory(item);
-    })
+    });
 }
 
 function transactionsFound(response, accountNumber, transactionID, startTime, e) {
@@ -456,7 +456,7 @@ function transactionsFound(response, accountNumber, transactionID, startTime, e)
 
             if (endTime - startTime <= 120000) {
                 e.status = "Success";
-                found = true
+                found = true;
 
                 let xhr = new XMLHttpRequest();
 
@@ -508,19 +508,19 @@ function getHistory() {
 
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                let response = JSON.parse(xhr.responseText)
+                let response = JSON.parse(xhr.responseText);
 
                 if (response["status"] == 200) {
                     let values = response.values;
                     checkTransactionsStatus(values);
                 }
             }
-        }
+        };
 
         xhr.open("GET", "http://localhost:3500/web_service_transactions/user_id/" + userID, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send();
-    }
+    };
 }
 
 function delReview(e) {
@@ -531,7 +531,7 @@ function delReview(e) {
 
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            let response = JSON.parse(xhr.responseText)
+            let response = JSON.parse(xhr.responseText);
 
             if (response["status"] == 200) {
                 document.getElementById('text1').innerHTML = 'Review Deleted';
@@ -543,7 +543,7 @@ function delReview(e) {
                 document.getElementById('modal').style.display = 'block';
             }
         }
-    }
+    };
 
     xhr.open("DELETE", "http://localhost:3500/web_service_transactions/transaction_id/" + transactionID, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -565,4 +565,4 @@ window.onclick = function (event) {
         modal.style.display = "none";
         location.reload();
     }
-}
+};

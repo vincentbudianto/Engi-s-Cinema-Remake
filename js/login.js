@@ -52,7 +52,7 @@ function login(e) {
                 document.getElementById('error-msg').innerHTML = 'Password is empty';
                 break;
         }
-    }
+    };
 }
 
 document.getElementById('loginForm').addEventListener('submit', login);

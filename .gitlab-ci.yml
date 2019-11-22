@@ -1,0 +1,39 @@
+#This command is run before actual stages start running
+before_script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+stages:
+  - test
+  - deploy
+
+# lint and test are two different jobs in the same stage.
+# This allows us to run these two in parallel and making build faster
+
+# Job 1:
+lintphp:
+  # Node docker image on which this would be run
+  image: tetraweb/php:latest
+  stage: test
+  before_script:
+    - composer install
+  script:
+    - ./vendor/bin/phpcs --standard=psr2 --extensions=php php/*.php
+
+lintjs:
+  # Node docker image on which this would be run
+  image: node:latest
+  stage: test
+  before_script:
+    - npm install
+  script:
+    - npm run lint
+
+deployToAWS:
+  # Node docker image on which this would be run
+  image: node:latest
+  only:
+    # - master
+    - developer
+  stage: deploy
+  script:
+    - bash deploy.sh

@@ -6,7 +6,7 @@ function getUsername() {
     request.onload = function() {
         let username = JSON.parse(request.responseText).username;
         document.getElementById('username').innerHTML = username;
-    }
+    };
 }
 
 function getMovies() {
@@ -22,7 +22,7 @@ function getMovies() {
             lastPage = data['total_pages'];
 
             for (i = 1; i <= lastPage; i++) {
-                getData(i)
+                getData(i);
             }
         }
     });

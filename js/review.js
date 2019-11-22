@@ -6,7 +6,7 @@ function getRatingReview() {
 
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            let response = JSON.parse(xhr.responseText)
+            let response = JSON.parse(xhr.responseText);
 
             if (response["status"] == 200) {
                 let values = response.values[0];
@@ -46,7 +46,7 @@ function getRatingReview() {
                 request.send(data);
             }
         }
-    }
+    };
 
     xhr.open("GET", "http://localhost:3500/web_service_transactions/transaction_id/" + transaction_id, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -68,7 +68,7 @@ function changeImage(e) {
         document.getElementById('star' + j).src = "assets/star_icon_grey.png";
     }
 
-    e.addEventListener('mouseout', reset)
+    e.addEventListener('mouseout', reset);
 }
 
 function reset() {
@@ -132,7 +132,7 @@ function addReview(e) {
                 document.getElementById('failed-modal').style.display = 'block';
             }
         }
-    }
+    };
 
     xhr.open("PUT", "http://localhost:3500/web_service_transactions/transaction_id/" + transaction_id, false);
     xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
@@ -158,4 +158,4 @@ window.onclick = function (event) {
     if (event.target == failedModal) {
         failedModal.style.display = "none";
     }
-}
+};

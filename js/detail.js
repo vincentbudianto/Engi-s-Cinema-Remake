@@ -261,18 +261,18 @@ function renderScheduleItem(eDate, eID) {
 
                 xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        let response = JSON.parse(xhr.responseText)
+                        let response = JSON.parse(xhr.responseText);
 
                         if (response["status"] == 200) {
                             let values = response.values;
                             scheduleItem.append(renderScheduleItemContent(eDate, time, 40 - values.length));
                         }
                     }
-                }
+                };
 
                 xhr.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList1[j], false);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.send()
+                xhr.send();
             }
         }
 
@@ -282,18 +282,18 @@ function renderScheduleItem(eDate, eID) {
 
                 request.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        let response = JSON.parse(request.responseText)
+                        let response = JSON.parse(request.responseText);
 
                         if (response["status"] == 200) {
                             let values = response.values;
                             scheduleItem.append(renderScheduleItemContent(eDate, timeList2[k], 40 - values.length));
                         }
                     }
-                }
+                };
 
                 request.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList2[k], false);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                request.send()
+                request.send();
             }
         }
 
@@ -430,7 +430,7 @@ function renderReviewContent(e) {
                 let user = JSON.parse(request.responseText);
                 reviewContent.append(renderReviewItem(value, user));
             }
-        }
+        };
     }
 
     return reviewContent;
@@ -457,7 +457,7 @@ function renderPage(e) {
 
     request1.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            let response = JSON.parse(request1.responseText)
+            let response = JSON.parse(request1.responseText);
 
             if (response["status"] == 200) {
                 let values = response.values;
@@ -486,11 +486,11 @@ function renderPage(e) {
                 renderReviewContainer(reviewContent);
             }
         }
-    }
+    };
 
     request1.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + e["id"], true);
     request1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request1.send()
+    request1.send();
 }
 
 function getMovie() {

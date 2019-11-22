@@ -175,7 +175,7 @@ function getSeatInfo() {
 
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            let response = JSON.parse(request.responseText)
+            let response = JSON.parse(request.responseText);
 
             if (response["status"] == 200) {
                 let values = response.values;
@@ -189,11 +189,11 @@ function getSeatInfo() {
                 }
             }
         }
-    }
+    };
 
     request.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + movieID + "/date/" + histDate + "/time/" + histTime, false);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send()
+    request.send();
 }
 
 function getMovie() {
@@ -220,7 +220,7 @@ function getMovie() {
 
 function select(e) {
     if (document.getElementById("seat-saved").getAttribute("value") != 0) {
-        let seatBefore = "seat-" + document.getElementById("seat-saved").value
+        let seatBefore = "seat-" + document.getElementById("seat-saved").value;
         document.getElementById(seatBefore).style.backgroundColor = 'white';
         document.getElementById(seatBefore).style.borderColor = '#12abde';
         document.getElementById(seatBefore).style.color = '#12abde';
@@ -267,7 +267,7 @@ function payment() {
     let url = new URL(window.location.href);
     let movieID = new URLSearchParams(url.search).get("movie");
     let date = new URLSearchParams(url.search).get("date");
-    let histDate = convertDateToFormat(date)
+    let histDate = convertDateToFormat(date);
     let histTime = new URLSearchParams(url.search).get("time");
     let seat = document.getElementById('seat-saved').value;
     let price = document.getElementById('price-saved').value;
@@ -320,7 +320,7 @@ function payment() {
 
                 xhr1.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        let response = JSON.parse(xhr1.responseText)
+                        let response = JSON.parse(xhr1.responseText);
 
                         if (response["status"] == 200) {
                             let transactionID = response.values.insertId;
@@ -342,7 +342,7 @@ function payment() {
                             document.getElementById('status-modal').style.display = 'block';
                         }
                     }
-                }
+                };
 
                 xhr1.open("POST", "http://localhost:3500/web_service_transactions", true);
                 xhr1.setRequestHeader("Access-Control-Allow-Headers", "*");
@@ -351,8 +351,8 @@ function payment() {
                 xhr1.setRequestHeader("Content-type", "application/json");
                 xhr1.send(JSON.stringify(data));
             }
-        }
-    }
+        };
+    };
 }
 
 function countdown(transactionID, startTime) {
@@ -383,7 +383,7 @@ function closePayment(transactionID, startTime) {
     let url = new URL(window.location.href);
     let movieID = new URLSearchParams(url.search).get("movie");
     let date = new URLSearchParams(url.search).get("date");
-    let histDate = convertDateToFormat(date)
+    let histDate = convertDateToFormat(date);
     let histTime = new URLSearchParams(url.search).get("time");
     let seat = document.getElementById('seat-saved').value;
     let price = document.getElementById('price-saved').value;
@@ -436,8 +436,8 @@ function closePayment(transactionID, startTime) {
             } else {
                 transactionsNotFound(transactionID);
             }
-        }
-    }
+        };
+    };
 }
 
 function transactionsFound(response, accountNumber, transactionID, startTime) {
@@ -454,7 +454,7 @@ function transactionsFound(response, accountNumber, transactionID, startTime) {
             let time = new Date(transactionTime[i].innerHTML).getTime();
 
             if (time - startTime <= 120000) {
-                found = true
+                found = true;
 
                 let xhr = new XMLHttpRequest();
 
@@ -466,7 +466,7 @@ function transactionsFound(response, accountNumber, transactionID, startTime) {
                         document.getElementById('status-button').style.display = 'block';
                         document.getElementById('status-modal').style.display = 'block';
                     }
-                }
+                };
 
                 xhr.open("PUT", "http://localhost:3500/web_service_transactions", true);
                 xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
@@ -500,7 +500,7 @@ function transactionsNotFound(transactionID) {
             document.getElementById('status-button').style.display = 'none';
             document.getElementById('status-modal').style.display = 'block';
         }
-    }
+    };
 
     xhr.open("PUT", "http://localhost:3500/web_service_transactions", true);
     xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
@@ -529,4 +529,4 @@ window.onclick = function(event) {
     if (event.target == paymentModal) {
         paymentModal.style.display = "none";
     }
-}
+};

@@ -39,7 +39,7 @@ function unameValidate() {
                     document.getElementById('false-username-msg').innerHTML = '';
                     break;
             }
-        }
+        };
     }
 }
 
@@ -72,7 +72,7 @@ function emailValidate() {
                     document.getElementById('false-email-msg').innerHTML = '';
                     break;
             }
-        }
+        };
     }
 }
 
@@ -110,7 +110,7 @@ function phoneValidate() {
                     document.getElementById('false-phone-msg').innerHTML = '';
                     break;
             }
-        }
+        };
     }
 }
 
@@ -200,7 +200,7 @@ function register(e) {
                     if (resultResponse === "200") {
                         window.location.replace('login.html');
                     }
-                }
+                };
 
                 break;
 
@@ -244,7 +244,7 @@ function register(e) {
                 document.getElementById('error-msg').innerHTML = 'Failed to upload profile picture';
                 break;
         }
-    }
+    };
 
     e.preventDefault();
 }
