@@ -270,7 +270,7 @@ function renderScheduleItem(eDate, eID) {
                     }
                 };
 
-                xhr.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList1[j], false);
+                xhr.open("GET", "http://18.215.174.114:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList1[j], false);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.send();
             }
@@ -291,7 +291,7 @@ function renderScheduleItem(eDate, eID) {
                     }
                 };
 
-                request.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList2[k], false);
+                request.open("GET", "http://18.215.174.114:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList2[k], false);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 request.send();
             }
@@ -488,7 +488,7 @@ function renderPage(e) {
         }
     };
 
-    request1.open("GET", "http://localhost:3500/web_service_transactions/movie_id/" + e["id"], true);
+    request1.open("GET", "http://18.215.174.114:3500/web_service_transactions/movie_id/" + e["id"], true);
     request1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request1.send();
 }

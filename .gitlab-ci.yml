@@ -17,16 +17,16 @@ lintphp:
   before_script:
     - composer install
   script:
-    - ./vendor/bin/phpcs --standard=psr2 --extensions=php php/*.php
+    - ./vendor/bin/phpcs --standard=psr2 --extensions=php *.php php/*.php
 
 lintjs:
   # Node docker image on which this would be run
   image: node:latest
   stage: test
   before_script:
-    - npm install
+    - sudo npm install
   script:
-    - npm run lint
+    - sudo npm run lint
 
 deployToAWS:
   # Node docker image on which this would be run
