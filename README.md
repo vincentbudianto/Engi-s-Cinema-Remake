@@ -1,7 +1,7 @@
 <h1 align="center">
     <b>
         <br>
-        #  Tugas Besar 2 IF3110 Pengembangan Aplikasi Berbasis Web
+        # Tugas Besar 2 IF3110 Pengembangan Aplikasi Berbasis Web / IF3159 Dasar Pembangunan Perangakat Lunak
         <br>
     </b>
 </h1>
@@ -228,6 +228,29 @@ Beberapa teknik yang digunakan pada pengerjaan tugas kali ini
 |:------:|:-----------------------|:-----------|
 | 1.     | Deskripsi              | 13517137   |
 | 2.     | Basis Data Web Service | 13517137   |
+
+### CI/CD
+| Number | Feature                | Assignment |
+|:------:|:-----------------------|:-----------|
+| 1.     | Linting                | 13517137   |
+| 2.     | Deployment to AWS EC2  | 13517137   |
+
+### Special Thanks To
+| Nama                           | NIM      |
+|:-------------------------------|:--------:|
+| Lukas Kurnia Jonathan          | 13517006 |
+| Johannes                       | 13517012 |
+| Yoel Susanto                   | 13517014 |
+| T. Antra Oksidian Tafly        | 13517020 |
+| Steve Andreas Immanuel         | 13517039 |
+| Ariel Ansa Razumardi           | 13517040 |
+| Nixon Andhika                  | 13517059 |
+| Joshua Christo Randiny         | 13517063 |
+| Willy Santoso                  | 13517066 |
+| Rayza Mahendra Guntara Harsono | 13517073 |
+| Edward Alexander Jaya          | 13517115 |
+| Ferdy Santoso                  | 13517116 |
+| Jan Meyer Saragih              | 13517131 |
 
 
 <p align="center">
