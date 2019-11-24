@@ -48,7 +48,7 @@ function getRatingReview() {
         }
     };
 
-    xhr.open("GET", "http://18.207.202.246:3500/web_service_transactions/transaction_id/" + transaction_id, true);
+    xhr.open("GET", "http://3.85.125.42:3500/web_service_transactions/transaction_id/" + transaction_id, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send();
 }
@@ -134,7 +134,7 @@ function addReview(e) {
         }
     };
 
-    xhr.open("PUT", "http://18.207.202.246:3500/web_service_transactions/transaction_id/" + transaction_id, false);
+    xhr.open("PUT", "http://3.85.125.42:3500/web_service_transactions/transaction_id/" + transaction_id, false);
     xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
     xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
