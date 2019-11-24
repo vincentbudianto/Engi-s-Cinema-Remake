@@ -45,7 +45,8 @@ Website ini dibuat dengan menggunakan Javascript, HTML dan CSS untuk frontend da
 
 ## Cara Menjalankan Server
 
-Cara menjalankan:<br>
+Cara menjalankan:
+
 | local                                                         |
 |:-------------------------------------------------------------:|
 | Jalankan modul Apache dan MySQL pada XAMPP                    |
