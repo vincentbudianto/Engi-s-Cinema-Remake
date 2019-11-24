@@ -65,6 +65,7 @@ function renderGridItem(e, f) {
 
     if (f['poster_path'] == null) {
         posterImage.src = "assets/no_image.png";
+        posterImage.style.height = "180px";
     } else {
         posterImage.src = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + f['poster_path'];
     }
@@ -388,7 +389,7 @@ function checkTransactionsStatus(e) {
             let response = JSON.parse(request.response);
             let accountNumber = response.accountNumber;
             let checkTransactionRequest = new XMLHttpRequest;
-            checkTransactionRequest.open("POST", "http://18.215.174.114:8080/web_service_bank_pro/services/CheckTransactions?wsdl", true);
+            checkTransactionRequest.open("POST", "http://18.207.202.246:8080/web_service_bank_pro/services/CheckTransactions?wsdl", true);
             checkTransactionRequest.setRequestHeader('Content-Type', 'text/xml;charset=utf-8');
 
             let xml =
@@ -460,7 +461,7 @@ function transactionsFound(response, accountNumber, transactionID, startTime, e)
 
                 let xhr = new XMLHttpRequest();
 
-                xhr.open("PUT", "http://18.215.174.114:3500/web_service_transactions", true);
+                xhr.open("PUT", "http://18.207.202.246:3500/web_service_transactions", true);
                 xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
                 xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
                 xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -486,7 +487,7 @@ function transactionsNotFound(transactionID, startTime, e) {
         e.status = "Cancelled";
         let xhr = new XMLHttpRequest();
 
-        xhr.open("PUT", "http://18.215.174.114:3500/web_service_transactions", true);
+        xhr.open("PUT", "http://18.207.202.246:3500/web_service_transactions", true);
         xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
         xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
         xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -517,7 +518,7 @@ function getHistory() {
             }
         };
 
-        xhr.open("GET", "http://18.215.174.114:3500/web_service_transactions/user_id/" + userID, true);
+        xhr.open("GET", "http://18.207.202.246:3500/web_service_transactions/user_id/" + userID, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send();
     };
@@ -545,7 +546,7 @@ function delReview(e) {
         }
     };
 
-    xhr.open("DELETE", "http://18.215.174.114:3500/web_service_transactions/transaction_id/" + transactionID, true);
+    xhr.open("DELETE", "http://18.207.202.246:3500/web_service_transactions/transaction_id/" + transactionID, true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send();
 }

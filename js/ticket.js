@@ -191,7 +191,7 @@ function getSeatInfo() {
         }
     };
 
-    request.open("GET", "http://18.215.174.114:3500/web_service_transactions/movie_id/" + movieID + "/date/" + histDate + "/time/" + histTime, false);
+    request.open("GET", "http://18.207.202.246:3500/web_service_transactions/movie_id/" + movieID + "/date/" + histDate + "/time/" + histTime, false);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send();
 }
@@ -281,7 +281,7 @@ function payment() {
         let accountNumber = response.accountNumber;
 
         let virtualAccountRequest = new XMLHttpRequest;
-        virtualAccountRequest.open("POST", "http://18.215.174.114:8080/web_service_bank_pro/services/GetVirtualNumber?wsdl", true);
+        virtualAccountRequest.open("POST", "http://18.207.202.246:8080/web_service_bank_pro/services/GetVirtualNumber?wsdl", true);
         virtualAccountRequest.setRequestHeader('Content-Type', 'text/xml;charset=utf-8');
 
         let xml =
@@ -344,7 +344,7 @@ function payment() {
                     }
                 };
 
-                xhr1.open("POST", "http://18.215.174.114:3500/web_service_transactions", true);
+                xhr1.open("POST", "http://18.207.202.246:3500/web_service_transactions", true);
                 xhr1.setRequestHeader("Access-Control-Allow-Headers", "*");
                 xhr1.setRequestHeader("Access-Control-Allow-Origin", "*");
                 xhr1.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -407,7 +407,7 @@ function closePayment(transactionID, startTime) {
         };
 
         let checkTransactionRequest = new XMLHttpRequest;
-        checkTransactionRequest.open("POST", "http://18.215.174.114:8080/web_service_bank_pro/services/CheckTransactions?wsdl", true);
+        checkTransactionRequest.open("POST", "http://18.207.202.246:8080/web_service_bank_pro/services/CheckTransactions?wsdl", true);
         checkTransactionRequest.setRequestHeader('Content-Type', 'text/xml;charset=utf-8');
 
         let xml =
@@ -468,7 +468,7 @@ function transactionsFound(response, accountNumber, transactionID, startTime) {
                     }
                 };
 
-                xhr.open("PUT", "http://18.215.174.114:3500/web_service_transactions", true);
+                xhr.open("PUT", "http://18.207.202.246:3500/web_service_transactions", true);
                 xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
                 xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
                 xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -502,7 +502,7 @@ function transactionsNotFound(transactionID) {
         }
     };
 
-    xhr.open("PUT", "http://18.215.174.114:3500/web_service_transactions", true);
+    xhr.open("PUT", "http://18.207.202.246:3500/web_service_transactions", true);
     xhr.setRequestHeader("Access-Control-Allow-Headers", "*");
     xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhr.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");

@@ -77,6 +77,7 @@ function renderMovies(e) {
 
     if (e['poster_path'] == null) {
         posterImage.src = "assets/no_image.png";
+        posterImage.style.height = "270px";
     } else {
         posterImage.src = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + e['poster_path'];
     }

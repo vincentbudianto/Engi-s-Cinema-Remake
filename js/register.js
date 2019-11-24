@@ -173,7 +173,7 @@ function register(e) {
         switch (request.response.substr(-3)) {
             case '200':
                 let registerRequest = new XMLHttpRequest();
-                registerRequest.open("POST", "http://18.215.174.114:8080/web_service_bank_pro/services/Register?wsdl", true);
+                registerRequest.open("POST", "http://18.207.202.246:8080/web_service_bank_pro/services/Register?wsdl", true);
                 registerRequest.setRequestHeader('Content-Type', 'text/xml;charset=utf-8');
 
                 let accountNumber = document.getElementById('accountNumber-input').value;

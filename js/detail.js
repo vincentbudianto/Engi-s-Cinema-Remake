@@ -61,6 +61,7 @@ function renderTop(e, rating) {
 
     if (e['poster_path'] == null) {
         posterImage.src = "assets/no_image.png";
+        posterImage.style.height = "300px";
     } else {
         posterImage.src = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + e['poster_path'];
     }
@@ -270,7 +271,7 @@ function renderScheduleItem(eDate, eID) {
                     }
                 };
 
-                xhr.open("GET", "http://18.215.174.114:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList1[j], false);
+                xhr.open("GET", "http://18.207.202.246:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList1[j], false);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.send();
             }
@@ -291,7 +292,7 @@ function renderScheduleItem(eDate, eID) {
                     }
                 };
 
-                request.open("GET", "http://18.215.174.114:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList2[k], false);
+                request.open("GET", "http://18.207.202.246:3500/web_service_transactions/movie_id/" + eID + "/date/" + histDate + "/time/" + timeList2[k], false);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 request.send();
             }
@@ -488,7 +489,7 @@ function renderPage(e) {
         }
     };
 
-    request1.open("GET", "http://18.215.174.114:3500/web_service_transactions/movie_id/" + e["id"], true);
+    request1.open("GET", "http://18.207.202.246:3500/web_service_transactions/movie_id/" + e["id"], true);
     request1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request1.send();
 }
