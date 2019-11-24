@@ -1,0 +1,31 @@
+before_script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+stages:
+  - test
+  - deploy
+
+lintphp:
+  image: tetraweb/php:latest
+  stage: test
+  before_script:
+    - composer install
+  script:
+    - ./vendor/bin/phpcs --standard=psr2 --extensions=php *.php php/*.php
+
+lintjs:
+  image: node:latest
+  stage: test
+  before_script:
+    - npm install
+  script:
+    - npm run lint
+
+deployToAWS:
+  image: node:latest
+  only:
+    - master
+    - developer
+  stage: deploy
+  script:
+    - bash deploy.sh
