@@ -44,8 +44,18 @@ Website ini dibuat dengan menggunakan Javascript, HTML dan CSS untuk frontend da
 <br>
 
 ## Cara Menjalankan Server
-1. Jalankan modul Apache dan MySQL pada XAMPP
-2. Pastikan folder engi_cinema berada pada path ..\xampp\htdocs\
+
+Cara menjalankan:<br>
+| local                                                         |
+|:-------------------------------------------------------------:|
+| Jalankan modul Apache dan MySQL pada XAMPP                    |
+| Pastikan folder engi_cinema berada pada path ..\xampp\htdocs\ |
+<br>
+
+| AWS EC2                                                       |
+|:-------------------------------------------------------------:|
+| ketikan ```localhost/engi-s-cinema``` pada web browser        |
+<br>
 
 <br>
 
