@@ -53,9 +53,9 @@ Cara menjalankan:
 | Pastikan folder engi_cinema berada pada path ..\xampp\htdocs\ |
 <br>
 
-| AWS EC2                                                       |
-|:-------------------------------------------------------------:|
-| ketikan ```localhost/engi-s-cinema``` pada web browser        |
+| AWS EC2                                                        |
+|:--------------------------------------------------------------:|
+| ketikan ```http://3.83.91.13/engi-s-cinema``` pada web browser |
 <br>
 
 <br>
